@@ -6,11 +6,12 @@ import smtplib
 from email.mime.text import MIMEText
 import datetime
 
-pause = 100
-mailto_list=['zcy0016@163.com']
+pause = 100 #间隔多少秒检测一次
+tem_threshold = 75 #阈值温度
+mailto_list=['zcy0016@163.com']  #你自己接收的邮箱，可以设置多个
 mail_host="smtp.163.com"
-mail_user="GPU_Monitor"
-mail_pass="GPUMonitor123"
+mail_user="GPU_Monitor" #发送警报的邮箱
+mail_pass="GPUMonitor123" #不是登录密码，是STMP密码
 mail_postfix="163.com"
 
 def send_email(to_list,sub,content):
@@ -42,7 +43,7 @@ def get_gpu_tem():
 while(True):
     try:
         tem_num = get_gpu_tem()
-        if tem_num>20:
+        if tem_num>tem_threshold:
             nowTime = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             warning_str = nowTime+"  Current temperature is " + str(tem_num) + "!!!"
             print(warning_str)
@@ -51,8 +52,3 @@ while(True):
 
     finally:
         time.sleep(pause)
-
-
-
-
-
